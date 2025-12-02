@@ -1,79 +1,49 @@
-<%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-<%= javascript_include_tag "application", "data-turbo-track": "reload" %>
-
-<!DOCTYPE html>
-<html class="h-full bg-gray-950">
-<head>
-  <title>Hexagram</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-</head>
-<body class="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 text-white overflow-x-hidden">
-
-  <!-- Navbar fija -->
-  <div class="fixed top-0 inset-x-0 z-50 bg-black/90 backdrop-blur-xl border-b border-purple-800/50">
-    <div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
-      <h1 class="text-5xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent tracking-tight">
-        Hexagram
-      </h1>
-      <%= button_to "Salir", destroy_user_session_path, method: :delete, class: "px-8 py-4 bg-red-600/20 hover:bg-red-600/40 rounded-2xl text-lg font-medium transition backdrop-blur" %>
-    </div>
-  </div>
-
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-8">
   <!-- Breadcrumbs -->
-  <div class="pt-32 pb-12 text-center">
-    <div class="inline-flex items-center gap-5 text-2xl text-purple-300">
-      <%= link_to "Inicio", hive_path, class: "hover:text-white transition" %>
+  <div class="mb-12 flex items-center gap-4 text-purple-300 text-xl">
+    <%= link_to "Inicio", hive_path, class: "hover:text-white transition" %>
+    <% if @breadcrumbs.present? %>
       <% @breadcrumbs.each do |hex| %>
         <span class="text-purple-500">→</span>
-        <%= link_to hex.title, hive_path(hex), class: "hover:text-white transition" %>
+        <%= link_to hex.title, hive_hex_path(hex), class: "hover:text-white transition" %>
       <% end %>
-    </div>
+    <% end %>
   </div>
 
-  <!-- HONEYCOMB REAL Y ÉPICO -->
-  <div class="flex justify-center">
-    <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-x-12 gap-y-28">
-      <% @hexes.each_with_index do |hex, i| %>
-        <div class="<%= "mt-20" if i.even? %>">
-          <%= link_to hive_path(hex), class: "group block" do %>
-            <div class="relative w-64 h-72 transform transition-all duration-700 hover:scale-125 hover:-translate-y-12 hover:z-50">
-              <!-- Hexágono exterior -->
-              <div class="absolute inset-0 hexagon bg-gradient-to-br from-purple-600 via-pink-600 to-purple-700 rounded-3xl shadow-2xl"></div>
-              <!-- Hexágono interior -->
-              <div class="absolute inset-4 hexagon bg-black/70 backdrop-blur-xl border-4 border-purple-500/50 rounded-3xl flex flex-col items-center justify-center p-6">
-                <% if hex.avatar.attached? %>
-                  <%= image_tag hex.avatar.variant(resize_to_fill: [140,140]), class: "w-36 h-36 rounded-full border-8 border-white shadow-2xl" %>
-                <% else %>
-                  <div class="w-36 h-36 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-7xl font-black shadow-2xl">
-                    <%= hex.title[0] %>
-                  </div>
-                <% end %>
-                <h3 class="mt-6 text-2xl font-bold tracking-wide"><%= hex.title %></h3>
-                <% if hex.folder_hex? %>
-                  <span class="mt-2 text-purple-300 text-sm font-medium">carpeta</span>
-                <% end %>
+  <!-- Grid honeycomb -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-6">
+    <% @hexes.each_with_index do |hex, i| %>
+      <div class="<%= i.odd? ? 'mt-16' : '' %>">
+        <%= link_to hive_hex_path(hex), class: "group block" do %>
+          <div class="relative w-40 h-48 mx-auto">
+            <div class="absolute inset-0 clip-hex bg-gradient-to-br from-purple-600 to-pink-600 shadow-2xl group-hover:scale-110 transition-transform duration-300 group-hover:shadow-purple-500/50"></div>
+            <div class="absolute inset-2 clip-hex bg-black/60 flex flex-col items-center justify-center">
+              <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-2xl font-bold mb-3">
+                <%= hex.title.first %>
               </div>
+              <p class="text-base font-semibold text-center"><%= hex.title %></p>
+              <% if hex.folder_hex? %>
+                <span class="text-xs opacity-70">carpeta</span>
+              <% end %>
             </div>
-          <% end %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 
-      <!-- Botón + -->
-      <div class="mt-20">
-        <div class="relative w-64 h-72">
-          <div class="absolute inset-0 hexagon bg-white/5 border-8 border-dashed border-purple-500 rounded-3xl hover:border-purple-300 transition cursor-pointer"></div>
-          <div class="absolute inset-0 flex items-center justify-center text-9xl text-purple-400 font-thin">+</div>
+    <!-- Botón + -->
+    <div class="mt-16">
+      <div class="relative w-40 h-48 mx-auto">
+        <div class="absolute inset-0 clip-hex bg-gray-800 border-2 border-dashed border-purple-500 rounded-lg flex items-center justify-center text-5xl hover:bg-purple-900/50 transition cursor-pointer">
+          +
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <style>
-    .hexagon {
-      clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
-    }
-  </style>
-
-</body>
-</html>
+<style>
+.clip-hex {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+}
+</style>
