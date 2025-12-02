@@ -1,0 +1,28 @@
+<%= link_to link_path,
+    class: "group relative block w-48 h-56 transform transition-all duration-300 hover:scale-110 hover:z-10" do %>
+  <div class="absolute inset-0 hex-shape bg-gradient-to-br from-purple-600 to-pink-600 opacity-90 group-hover:opacity-100"></div>
+
+  <%# Hexágono real con clip-path %>
+  <div class="hex-shape clip-hex flex flex-col items-center justify-center p-6 text-center">
+    <% if avatar_url.present? %>
+      <img src="<%= avatar_url %>" alt="<%= @hex.title %>" class="w-20 h-20 rounded-full border-4 border-white shadow-2xl object-cover">
+    <% end %>
+
+    <h3 class="mt-4 text-lg font-semibold text-white drop-shadow-lg">
+      <%= @hex.title %>
+    </h3>
+
+    <% if @hex.folder_hex? %>
+      <span class="absolute bottom-4 text-xs opacity-70">carpeta</span>
+    <% end %>
+  </div>
+<% end %>
+
+<style>
+  .hex-shape {
+    width: 192px;
+    height: 222px;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+  }
+  .clip-hex { clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%); }
+</style>

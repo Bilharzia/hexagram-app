@@ -16,7 +16,14 @@
     <%= stylesheet_link_tag "application" %>
   </head>
 
-  <body>
+<body class="min-h-screen bg-gray-950 text-white">
+  <% if user_signed_in? %>
+    <%= render "shared/navbar" %>
+  <% end %>
+
+  <main class="pt-16">
     <%= yield %>
-  </body>
+  </main>
+</body>
+
 </html>
