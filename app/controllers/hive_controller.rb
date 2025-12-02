@@ -1,6 +1,10 @@
 class HiveController < ApplicationController
   before_action :set_current_hex, only: :show
 
+  def index
+    # aquí puedes poner lógica, o dejarlo vacío para que solo renderice la vista
+  end
+
   def show
     @hexes = @current_hex&.children || current_user.hexes.roots
     @breadcrumbs = build_breadcrumbs

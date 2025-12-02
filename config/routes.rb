@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     root "hive#show", as: :authenticated_root
   end
 
-  root "home#index"  # página pública temporal
+  root "hive#index"  # página pública temporal
 
   # El hive: una sola ruta para todo el árbol
   get "hive", to: "hive#show", as: :hive
