@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_02_163142) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_02_182913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_02_163142) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ring"
+    t.integer "distance"
+    t.integer "direction"
+    t.string "avatar"
     t.index ["hex_type"], name: "index_hexes_on_hex_type"
     t.index ["parent_id", "parent_type"], name: "index_hexes_on_parent_id_and_parent_type"
     t.index ["parent_type", "parent_id"], name: "index_hexes_on_parent"

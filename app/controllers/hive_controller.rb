@@ -1,28 +1,18 @@
 class HiveController < ApplicationController
-  before_action :set_current_hex, only: :show
-
-  def index
-    # aquí puedes poner lógica, o dejarlo vacío para que solo renderice la vista
-  end
+  before_action :authenticate_user!
 
   def show
+    @current_hex = params[:id].present? ? Hex.find(params[:id]) : nil
     @hexes = @current_hex&.children || current_user.hexes.roots
-    @breadcrumbs = build_breadcrumbs
+    @breadcrumbs = build_breadcrumbs(@current_hex)
   end
 
   private
 
-  def set_current_hex
-    @current_hex = params[:id].present? ? Hex.find(params[:id]) : nil
-  end
-
-  def build_breadcrumbs
-    return [] unless @current_hex
-    build_breadcrumbs_recursive(@current_hex) + [@current_hex]
-  end
-
-  def build_breadcrumbs_recursive(hex)
-    return [] unless hex.parent
-    build_breadcrumbs_recursive(hex.parent) + [hex.parent]
+  def build_breadcrumbs(hex, breadcrumbs = [])
+    return breadcrumbs unless hex
+    build_breadcrumbs(hex.parent, breadcrumbs)
+    breadcrumbs << hex
+    breadcrumbs
   end
 end
