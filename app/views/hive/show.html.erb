@@ -16,8 +16,8 @@
       <div class="<%= i.odd? ? 'mt-16' : '' %>">
         <%= link_to hive_hex_path(hex), class: "group block" do %>
           <div class="relative w-40 h-48 mx-auto">
-            <div class="absolute inset-0 clip-hex bg-gradient-to-br from-purple-600 to-pink-600 shadow-2xl group-hover:scale-110 transition-transform duration-300 group-hover:shadow-purple-500/50"></div>
-            <div class="absolute inset-2 clip-hex bg-black/60 flex flex-col items-center justify-center">
+            <div class="absolute inset-0 hex-clip bg-gradient-to-br from-purple-600 to-pink-600 shadow-2xl group-hover:scale-110 transition-transform duration-300 group-hover:shadow-purple-500/50"></div>
+            <div class="absolute inset-2 hex-clip bg-black/60 flex flex-col items-center justify-center">
               <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center text-2xl font-bold mb-3">
                 <%= hex.title.first %>
               </div>
@@ -34,7 +34,7 @@
     <!-- Botón + -->
     <div class="mt-16">
       <div class="relative w-40 h-48 mx-auto">
-        <div class="absolute inset-0 clip-hex bg-gray-800 border-2 border-dashed border-purple-500 rounded-lg flex items-center justify-center text-5xl hover:bg-purple-900/50 transition cursor-pointer">
+        <div class="absolute inset-0 hex-clip bg-gray-800 border-2 border-dashed border-purple-500 rounded-lg flex items-center justify-center text-5xl hover:bg-purple-900/50 transition cursor-pointer">
           +
         </div>
       </div>
@@ -43,7 +43,7 @@
 </div>
 
 <style>
-.clip-hex {
+.hex-clip {
   clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
 }
 </style>
